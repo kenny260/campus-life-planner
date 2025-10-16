@@ -1,0 +1,155 @@
+{
+  "tasks": [
+    {
+      "id": "task_1",
+      "title": "Read Chapter 1 of Physics",
+      "dueDate": "2025-10-15",
+      "duration": 60,
+      "tag": "Study",
+      "priority": "medium",
+      "notes": "Focus on Newton's laws",
+      "completed": false,
+      "createdAt": "2025-10-10T10:00:00Z",
+      "updatedAt": "2025-10-10T10:00:00Z"
+    },
+    {
+      "id": "task_2",
+      "title": "Submit Assignment for Math",
+      "dueDate": "2025-10-12",
+      "duration": 90,
+      "tag": "Assignment",
+      "priority": "high",
+      "notes": "Check formula sheet before submission",
+      "completed": false,
+      "createdAt": "2025-10-10T12:00:00Z",
+      "updatedAt": "2025-10-10T12:00:00Z"
+    },
+    {
+      "id": "task_3",
+      "title": "Group Meeting for Project",
+      "dueDate": "2025-10-14",
+      "duration": 120,
+      "tag": "Meeting",
+      "priority": "medium",
+      "notes": "Discuss milestones and next steps",
+      "completed": false,
+      "createdAt": "2025-10-09T15:00:00Z",
+      "updatedAt": "2025-10-09T15:00:00Z"
+    },
+    {
+      "id": "task_4",
+      "title": "Complete CS101 Lab Report",
+      "dueDate": "2025-10-20",
+      "duration": 180,
+      "tag": "Assignment",
+      "priority": "high",
+      "notes": "Include graphs and data analysis",
+      "completed": true,
+      "createdAt": "2025-10-08T09:00:00Z",
+      "updatedAt": "2025-10-11T14:30:00Z"
+    },
+    {
+      "id": "task_5",
+      "title": "Study for Chemistry Midterm",
+      "dueDate": "2025-10-25",
+      "duration": 240,
+      "tag": "Study",
+      "priority": "high",
+      "notes": "Review chapters 3-7, practice problems",
+      "completed": false,
+      "createdAt": "2025-10-05T08:00:00Z",
+      "updatedAt": "2025-10-05T08:00:00Z"
+    },
+    {
+      "id": "task_6",
+      "title": "Quick coffee break with study group",
+      "dueDate": "2025-10-16",
+      "duration": 15,
+      "tag": "Social",
+      "priority": "low",
+      "notes": "",
+      "completed": false,
+      "createdAt": "2025-10-12T16:00:00Z",
+      "updatedAt": "2025-10-12T16:00:00Z"
+    },
+    {
+      "id": "task_7",
+      "title": "Research Paper Draft - Environmental Science",
+      "dueDate": "2025-11-05",
+      "duration": 480,
+      "tag": "Research",
+      "priority": "high",
+      "notes": "Focus on climate change impacts in coastal regions",
+      "completed": false,
+      "createdAt": "2025-10-01T10:00:00Z",
+      "updatedAt": "2025-10-01T10:00:00Z"
+    },
+    {
+      "id": "task_8",
+      "title": "Past Due Task - Library Book Return",
+      "dueDate": "2025-10-01",
+      "duration": 30,
+      "tag": "Errand",
+      "priority": "medium",
+      "notes": "Return borrowed textbooks to avoid late fees",
+      "completed": true,
+      "createdAt": "2025-09-25T14:00:00Z",
+      "updatedAt": "2025-10-02T11:00:00Z"
+    },
+    {
+      "id": "task_9",
+      "title": "Prepare Presentation Slides for History Class",
+      "dueDate": "2025-10-18",
+      "duration": 120,
+      "tag": "Presentation",
+      "priority": "medium",
+      "notes": "World War II economic impacts - 15 slides minimum",
+      "completed": false,
+      "createdAt": "2025-10-11T13:00:00Z",
+      "updatedAt": "2025-10-11T13:00:00Z"
+    },
+    {
+      "id": "task_10",
+      "title": "Gym Workout Session",
+      "dueDate": "2025-10-16",
+      "duration": 60,
+      "tag": "Exercise",
+      "priority": "low",
+      "notes": "Leg day routine",
+      "completed": false,
+      "createdAt": "2025-10-13T07:00:00Z",
+      "updatedAt": "2025-10-13T07:00:00Z"
+    },
+    {
+      "id": "task_11",
+      "title": "Team Project Code Review and Debugging Session",
+      "dueDate": "2025-10-22",
+      "duration": 150,
+      "tag": "Project-Work",
+      "priority": "high",
+      "notes": "Focus on backend API integration issues",
+      "completed": false,
+      "createdAt": "2025-10-10T17:00:00Z",
+      "updatedAt": "2025-10-10T17:00:00Z"
+    },
+    {
+      "id": "task_12",
+      "title": "Update Resume and LinkedIn Profile",
+      "dueDate": "2025-11-01",
+      "duration": 90,
+      "tag": "Career",
+      "priority": "medium",
+      "notes": "Add recent projects and internship experience",
+      "completed": false,
+      "createdAt": "2025-10-09T19:00:00Z",
+      "updatedAt": "2025-10-09T19:00:00Z"
+    }
+  ],
+  "settings": {
+    "showCompleted": true,
+    "defaultDuration": 60,
+    "taskCap": 20
+  },
+  "exportedAt": "2025-10-15T12:00:00Z",
+  "version": "1.0.0"
+}

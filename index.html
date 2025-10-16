@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Life Planner</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    
+    <header>
+        <div class="header-content">
+            <h1>Campus Life Planner</h1>
+            <p class="tagline">Organize your academic life, one task at a time</p>
+        </div>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="#dashboard" class="nav-link"> Dashboard</a></li>
+                <li><a href="#records" class="nav-link"> Tasks & Events</a></li>
+                <li><a href="#add-form" class="nav-link">Add Task</a></li>
+                <li><a href="#settings" class="nav-link">Settings</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+
+    <main id="main-content">
+    
+        <div id="notification-area" role="status" aria-live="polite" aria-atomic="true" class="notification hidden">
+            <span id="notification-message"></span>
+            <button id="notification-close" aria-label="Close notification">&times;</button>
+        </div>
+
+        <section id="dashboard" class="fade-in">
+            <h2>Dashboard Overview</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card stat-card-primary">
+                    <div class="stat-icon"></div>
+                    <div class="stat-content">
+                        <p class="stat-label">Total Tasks</p>
+                        <p class="stat-value" id="total-tasks">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-card-warning">
+                    <div class="stat-icon"></div>
+                    <div class="stat-content">
+                        <p class="stat-label">Upcoming This Week</p>
+                        <p class="stat-value" id="weekly-tasks">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-card-success">
+                    <div class="stat-icon"></div>
+                    <div class="stat-content">
+                        <p class="stat-label">Completed</p>
+                        <p class="stat-value" id="completed-tasks">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-card-info">
+                    <div class="stat-icon"></div>
+                    <div class="stat-content">
+                        <p class="stat-label">Most Common Tag</p>
+                        <p class="stat-value" id="top-tag">N/A</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cap/Target System with ARIA Live Region -->
+            <div class="cap-section">
+                <h3>Weekly Task Cap</h3>
+                <div class="cap-controls">
+                    <label for="task-cap">Set weekly task cap:</label>
+                    <input type="number" id="task-cap" min="1" max="100" value="20">
+                    <button id="set-cap-btn">Set Cap</button>
+                </div>
+                <div class="cap-status" role="status" aria-live="polite" aria-atomic="true">
+                    <div id="cap-message" class="cap-message">
+                        Set a weekly task cap to track your workload.
+                    </div>
+                    <div class="cap-progress">
+                        <div id="cap-progress-bar" class="cap-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p id="cap-details" class="cap-details"></p>
+                </div>
+            </div>
+            
+            <!-- Chart Container -->
+            <div id="chart-container" aria-label="Task statistics chart">
+                <!-- Placeholder for JS-generated chart -->
+            </div>
+        </section>
+        
+        <!-- Records Section -->
+        <section id="records" class="fade-in">
+            <h2>Tasks & Events</h2>
+            
+            <!-- Search and Filter Controls -->
+            <div class="controls">
+                <div class="search-box">
+                    <input type="search" id="search" placeholder=" Search tasks (regex supported)" aria-label="Search tasks">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="case-sensitive">
+                        Case sensitive
+                    </label>
+                </div>
+                
+                <select id="sort-by" aria-label="Sort tasks by">
+                    <option value="dueDate"> Sort by Due Date</option>
+                    <option value="title"> Sort by Title</option>
+                    <option value="duration"> Sort by Duration</option>
+                    <option value="tag">Sort by Tag</option>
+                </select>
+                
+                <select id="filter-by" aria-label="Filter tasks by tag">
+                    <option value="all"> All Tags</option>
+                    <!-- JavaScript will populate tag options -->
+                </select>
+            </div>
+
+            <!-- Search Status -->
+            <div id="search-status" role="status" aria-live="polite" class="search-status hidden"></div>
+            
+            <!-- Table -->
+            <div class="table-container">
+                <table id="records-table">
+                    <caption>List of Tasks and Events</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Due Date</th>
+                            <th scope="col">Duration (min)</th>
+                            <th scope="col">Tag</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="loading-row">
+                            <td colspan="5">
+                                <div class="loading-spinner"></div>
+                                <p>Loading tasks...</p>
+                            </td>
+                        </tr>
+                        <tr id="empty-row" style="display:none;">
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <div class="empty-icon"></div>
+                                    <p>No tasks found. Add your first task below!</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- JS will populate tasks here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- Add/Edit Form Section -->
+        <section id="add-form" class="fade-in">
+            <h2 id="form-heading">Add New Task</h2>
+            <form id="task-form" class="task-form">
+                <!-- Hidden field to track if editing -->
+                <input type="hidden" id="task-id" name="taskId" value="">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="title">Title: <span class="required">*</span></label>
+                        <input type="text" id="title" name="title" maxlength="100" required 
+                               placeholder="e.g., Complete CS101 Assignment">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dueDate">Due Date: <span class="required">*</span></label>
+                        <input type="date" id="dueDate" name="dueDate" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="duration">Duration (minutes): <span class="required">*</span></label>
+                        <input type="number" id="duration" name="duration" min="1" max="1440" required 
+                               placeholder="e.g., 60">
+                        <small class="form-help">1-1440 minutes (24 hours max)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="priority">Priority:</label>
+                        <select id="priority" name="priority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tag">Tag: <span class="required">*</span></label>
+                    <input type="text" id="tag" name="tag" maxlength="50" required 
+                           list="tag-suggestions" placeholder="e.g., Study, Assignment, Meeting">
+                    <datalist id="tag-suggestions">
+                        <!-- JavaScript will populate common tags -->
+                    </datalist>
+                    <small class="form-help">Letters, spaces, and hyphens only</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Notes (optional):</label>
+                    <textarea id="notes" name="notes" rows="3" maxlength="500" 
+                              placeholder="Add any additional details..."></textarea>
+                    <small class="form-help"><span id="notes-count">0</span>/500 characters</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-icon"></span> Save Task
+                    </button>
+                    <button type="button" id="cancel-btn" class="btn btn-secondary">
+                        <span class="btn-icon"></span> Cancel
+                    </button>
+                    <button type="reset" class="btn btn-outline">
+                        <span class="btn-icon"></span> Clear Form
+                    </button>
+                </div>
+            </form>
+        </section>
+        
+        <!-- Settings Section -->
+        <section id="settings" class="fade-in">
+            <h2>Settings</h2>
+            
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>Display Preferences</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="show-completed" checked>
+                        Show completed tasks
+                    </label>
+                </div>
+                
+                <div class="settings-card">
+                    <h3>Task Defaults</h3>
+                    <label for="default-duration">Default duration (minutes):</label>
+                    <input type="number" id="default-duration" value="60" min="1" max="1440">
+                </div>
+                
+                <div class="settings-card">
+                    <h3>Units Conversion</h3>
+                    <p>Convert task durations between minutes and hours:</p>
+                    <div class="conversion-tool">
+                        <input type="number" id="minutes-input" placeholder="Minutes" min="0">
+                        <span>⇄</span>
+                        <input type="number" id="hours-input" placeholder="Hours" step="0.1" min="0">
+                    </div>
+                    <small class="form-help">Type in one field to convert</small>
+                </div>
+                
+                <div class="settings-card">
+                    <h3>Manage Tags</h3>
+                    <p>Common tags will appear in suggestions when adding tasks.</p>
+                    <div id="tags-list">
+                        <!-- JavaScript will populate tag management UI -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-card data-management">
+                <h3>Data Management</h3>
+                <div class="button-group">
+                    <button type="button" id="export-data" class="btn btn-success">
+                        <span class="btn-icon"></span> Export Data
+                    </button>
+                    <button type="button" id="import-data" class="btn btn-info">
+                        <span class="btn-icon"></span> Import Data
+                    </button>
+                    <input type="file" id="import-file" accept=".json" style="display:none;">
+                    <button type="button" id="clear-all-data" class="btn btn-danger">
+                        <span class="btn-icon"></span> Clear All Data
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="fade-in">
+            <h2>About Campus Life Planner</h2>
+            
+            <div class="about-content">
+                <div class="about-card">
+                    <h3></h3> Purpose</h3>
+                    <p>Campus Life Planner is a comprehensive task management application designed specifically for students to organize their academic life. Track assignments, manage study sessions, plan group meetings, and stay on top of your campus activities.</p>
+                </div>
+                
+                <div class="about-card">
+                    <h3>Features</h3>
+                    <ul>
+                        <li>Create, edit, and delete tasks with detailed information</li>
+                        <li>Advanced regex search with pattern highlighting</li>
+                        <li>Visual dashboard with statistics and charts</li>
+                        <li>Organize tasks with customizable tags</li>
+                        <li>Mark tasks as complete/incomplete</li>
+                        <li>Sort and filter by multiple criteria</li>
+                        <li>Export and import your data as JSON</li>
+                        <li>Keyboard shortcuts for power users</li>
+                        <li>Full accessibility support</li>
+                        <li>Responsive design for all devices</li>
+                    </ul>
+                </div>
+                
+                <div class="about-card">
+                    <h3>Keyboard Shortcuts</h3>
+                    <table class="shortcuts-table">
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>F</kbd></td>
+                            <td>Focus search box</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Ctrl</kbd> + <kbd>N</kbd></td>
+                            <td>Create new task</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Esc</kbd></td>
+                            <td>Cancel editing</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="about-card">
+                    <h3>Author : BINTHIA NITONDE</h3>
+                    <p><strong>Developer:</strong> <a href="https://github.com/kenny260" target="_blank" rel="noopener noreferrer">kenny260</a></p>
+                    <p><strong>Contact:</strong> <a href="mailto:n.binthia@alustudent.com">contact@example.com</a></p>
+                    <p><strong>Version:</strong> 1.0.0</p>
+                    <p><strong>GitHub:</strong> <a href="https://github.com/kenny260/campus-life-planner" target="_blank" rel="noopener noreferrer">View Repository</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Campus Life Planner | 
+            <a href="#about">About</a> | 
+            <a href="https://github.com/kenny260" target="_blank" rel="noopener noreferrer">GitHub</a> |
+            <a href="#dashboard">Back to Top</a>
+        </p>
+    </footer>
+    
+    <script src="scripts/main.js" type="module"></script>
+</body>
+</html>
