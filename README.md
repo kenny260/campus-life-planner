@@ -3,6 +3,7 @@
 A responsive, accessible, and student-friendly task management web application built to help learners organize assignments, study sessions, and campus activities efficiently.
 
 Live Demo
+https://youtu.be/1_EW8rV5ksI
 
 GitHub Pages: https://kenny260.github.io/campus-life-planner
 
